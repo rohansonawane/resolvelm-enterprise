@@ -5,7 +5,7 @@
 | Item | Value |
 |------|--------|
 | Intended local weights | `Qwen/Qwen2.5-0.5B-Instruct` (ungated, Apache-2.0) |
-| Production target | `Qwen/Qwen3-4B-Instruct` class with QLoRA — **not loaded here** |
+| Production target | `Qwen/Qwen3-4B-Instruct-2507` with QLoRA — **not loaded here** |
 | Fallback | `RuleBasedBackend` + TF-IDF/SGD `ClassifierBackend` |
 | Hardware | Apple M4, 16 GB RAM, MPS, no NVIDIA |
 

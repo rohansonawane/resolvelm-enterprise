@@ -11,7 +11,7 @@ class VLLMBackend:
         raise RuntimeError(
             "VLLMBackend is not supported on this platform (no CUDA / Docker GPU). "
             "Use TransformersBackend or RuleBasedBackend locally. "
-            "Production CUDA serving should use vLLM with Qwen3-4B-Instruct-class models."
+            "Production CUDA serving should use vLLM with Qwen3-4B-Instruct-2507-class models."
         )
 
     async def generate(self, prompt: str, *, max_new_tokens: int = 512) -> str:

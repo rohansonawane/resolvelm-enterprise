@@ -1,0 +1,41 @@
+# First-run CUDA DPO for ~8–12 GB cards. NOT executed on the Apple Silicon laptop.
+seed: 42
+profile: cuda_lora
+data:
+  train_path: data/processed/dpo_train.jsonl
+  val_path: data/processed/dpo_val.jsonl
+output_dir: outputs/dpo-cuda-1p5b
+artifacts_dir: artifacts/gpu
+mlflow_experiment: resolvelm-cuda
+register_alias: champion
+sft_adapter: outputs/sft-cuda-1p5b
+
+model:
+  id: Qwen/Qwen2.5-1.5B-Instruct
+  production_id: Qwen/Qwen3-4B-Instruct-2507
+  trust_remote_code: false
+  allow_download: true
+  min_free_disk_gb: 8.0
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  qlora: false
+
+train:
+  epochs: 1
+  learning_rate: 5.0e-6
+  batch_size: 1
+  grad_accum: 8
+  max_seq_len: 1024
+  beta: 0.1
+  warmup_ratio: 0.03
+  max_grad_norm: 1.0
+  optimizer: adamw_torch
+  precision: bf16
+  device: cuda
+  logging_steps: 10
+  resume: false
+  gradient_checkpointing: true

@@ -3,7 +3,7 @@
 
 ## What this is for
 
-Fine-tune `Qwen/Qwen3-4B-Instruct` with QLoRA SFT then DPO. Local M4 smoke uses a
+Fine-tune `Qwen/Qwen3-4B-Instruct-2507` with QLoRA SFT then DPO. Local M4 smoke uses a
 tiny model or the sklearn fallback. 4B numbers must never be copied into README
 unless this job actually ran.
 

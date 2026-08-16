@@ -23,7 +23,7 @@ Seeds default to **42** in `configs/`. `set_global_seed` sets `random`, NumPy, `
 | Fixture corpus + quality report | Yes |
 | Fallback SFT/DPO loss curves | Yes if TRL cannot run |
 | Tiny HF LoRA SFT/DPO | Attempted; see `artifacts/sft_train_metrics.json` |
-| Qwen3-4B QLoRA | No — **Not benchmarked on this hardware.** |
+| Qwen3-4B QLoRA | No — **Not benchmarked on this hardware.** Clone on NVIDIA and follow [GPU_SETUP.md](GPU_SETUP.md). |
 | vLLM serving | No |
 | Docker Compose live | Only if the daemon is up |
 

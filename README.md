@@ -4,7 +4,7 @@
 
 On-call engineers paste a service, environment, symptoms, and logs. ResolveLM returns **strict JSON**: severity, root-cause code, evidence tied to real event IDs, and prioritized actions. Invalid model text is **never** coerced into a fake diagnosis — the API retries/repairs once, then returns an error payload.
 
-This repository is independently publishable. Local numbers below were measured on an Apple Silicon MacBook Pro (M4, 16 GB RAM, no NVIDIA GPU). Production CUDA configs target a Qwen3-4B-Instruct-class model and were **not executed here**.
+This repository is independently publishable. Local numbers below were measured on an Apple Silicon MacBook Pro (M4, 16 GB RAM, no NVIDIA GPU). Production CUDA configs target `Qwen/Qwen3-4B-Instruct-2507` and were **not executed here**.
 
 ## Problem
 
@@ -20,7 +20,7 @@ Values are copied from `artifacts/model_comparison.csv` and `artifacts/base_mode
 | sft | transformers (Qwen2.5-0.5B + LoRA) | 10 | 0.0 | 0.0 | 0.0 | 0.9 | 0.0 | 0.0 | 0.0 | 15944 |
 | dpo | trl_dpo (train ran; eval not completed) | Not benchmarked on this hardware. | Not benchmarked on this hardware. | Not benchmarked on this hardware. | Not benchmarked on this hardware. | Not benchmarked on this hardware. | Not benchmarked on this hardware. | Not benchmarked on this hardware. | Not benchmarked on this hardware. | Not benchmarked on this hardware. |
 
-The rule baseline is deterministic keyword matching on this derived corpus (perfect scores are expected, not a claim of production LLM quality). Smoke SFT on Qwen2.5-0.5B-Instruct (LoRA on MPS) produced JSON 90% of the time but **zero valid Pydantic diagnoses** — the 0.5B adapter did not learn the schema on this tiny run. DPO training completed (`train_loss=0.691` in `artifacts/dpo_train_metrics.json`); DPO test evaluation was not finished after a host Python crash (OpenMP/LightGBM SIGSEGV in a sibling process). Qwen3-4B QLoRA / vLLM throughput: **Not benchmarked on this hardware.**
+The rule baseline is deterministic keyword matching on this derived corpus (perfect scores are expected, not a claim of production LLM quality). Smoke SFT on Qwen2.5-0.5B-Instruct (LoRA on MPS) produced JSON 90% of the time but **zero valid Pydantic diagnoses** — the 0.5B adapter did not learn the schema on this tiny run. DPO training completed (`train_loss=0.691` in `artifacts/dpo_train_metrics.json`); DPO test evaluation was not finished after a host Python crash (OpenMP/LightGBM SIGSEGV in a sibling process). Qwen3-4B QLoRA / vLLM throughput: **Not benchmarked on this hardware.** GPU numbers belong in `artifacts/gpu/` after `make gpu-eval` on an NVIDIA box.
 
 ## Architecture
 
@@ -48,7 +48,7 @@ Serving backends implement `ModelBackend.generate()`:
 | Layer | Choice |
 |-------|--------|
 | Data | Derived/synthetic incidents inspired by Loghub Hadoop, HDFS, OpenStack patterns |
-| Training | Transformers + TRL + PEFT LoRA (QLoRA in `configs/cuda/`) |
+| Training | Transformers + TRL + PEFT LoRA; 4-bit QLoRA on CUDA (`configs/cuda/`) |
 | Fallback trainer | SGD/LogisticRegression on TF-IDF; writes real loss curves |
 | Serving | FastAPI on `:8101` |
 | Dashboard | Next.js App Router on `:3101` |
@@ -87,7 +87,7 @@ curl -s http://127.0.0.1:8101/api/v1/incidents/analyze \
 ## Training
 
 - Local smoke: `configs/local/sft.yaml` and `configs/local/dpo.yaml` (tiny instruct model or fallback).
-- Production CUDA: `configs/cuda/` and `cloud/` for Qwen3-4B-Instruct QLoRA. **Not executed on this hardware.**
+- Production CUDA: [GPU_SETUP.md](GPU_SETUP.md) — Qwen3-4B-Instruct-2507 QLoRA on an NVIDIA box. **Not executed on this hardware.**
 - `make smoke` prepares a tiny corpus, runs SFT + DPO (TRL or fallback), evaluates BASE vs SFT vs DPO on the same locked test split, writes artifacts, and runs unit tests.
 
 ## Evaluation
@@ -103,6 +103,22 @@ Dashboard **Incident Analyzer** ships five marked demos: disk full, network fail
 ## MLOps
 
 MLflow logs seed, LR, LoRA r/alpha/dropout/targets, batch, accum, seq len, epochs, optimizer, precision, device, train/val loss when a tracking server is up. Aliases `candidate` (SFT) and `champion` (DPO) are requested when MLflow runs.
+
+## NVIDIA GPU (QLoRA)
+
+On a Linux machine with an NVIDIA GPU:
+
+```bash
+git clone https://github.com/rohansonawane/resolvelm-enterprise.git
+cd resolvelm-enterprise
+make gpu-setup && make gpu-check
+make gpu-data
+make gpu-train
+make gpu-eval
+make gpu-serve
+```
+
+Default is Qwen3-4B-Instruct-2507 QLoRA SFT then DPO. Smaller first run: `make gpu-train GPU_SFT=configs/cuda/sft_1p5b.yaml GPU_DPO=configs/cuda/dpo_1p5b.yaml`. Details: [GPU_SETUP.md](GPU_SETUP.md). GPU metrics live in `artifacts/gpu/`, not in the Mac table above.
 
 ## Tests
 
@@ -122,7 +138,7 @@ See [REPRODUCIBILITY.md](REPRODUCIBILITY.md) and `artifacts/environment.json`. S
 - Research logs ≠ modern SaaS incidents. Corpus is **derived/synthetic**, inspired by public Loghub patterns, not a proprietary ticket dump.
 - Remediations are template-derived; a human must still review SEV-1/SEV-2 actions.
 - Local model is tiny (or a rule/classifier fallback). Do not treat local scores as 4B production quality.
-- vLLM and CUDA QLoRA are documented, not run on this laptop.
+- vLLM and CUDA QLoRA are documented, not run on this laptop. See [GPU_SETUP.md](GPU_SETUP.md).
 
 ## License
 

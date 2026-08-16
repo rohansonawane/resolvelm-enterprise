@@ -1,0 +1,30 @@
+# CUDA eval for the 1.5B first-run adapters. NOT executed on the Apple Silicon laptop.
+seed: 42
+profile: cuda
+test_path: data/processed/incidents_test.jsonl
+artifacts_dir: artifacts/gpu
+docs_dir: docs
+predictions_dir: artifacts/gpu/predictions
+max_samples: null
+timeout_s: 120
+backends:
+  base:
+    kind: transformers
+    name: qwen2.5-1.5b-base
+    model_id: Qwen/Qwen2.5-1.5B-Instruct
+    device: cuda
+    load_in_4bit: false
+  sft:
+    kind: transformers
+    name: qwen2.5-1.5b-sft
+    model_id: Qwen/Qwen2.5-1.5B-Instruct
+    adapter_path: outputs/sft-cuda-1p5b
+    device: cuda
+    load_in_4bit: false
+  dpo:
+    kind: transformers
+    name: qwen2.5-1.5b-dpo
+    model_id: Qwen/Qwen2.5-1.5B-Instruct
+    adapter_path: outputs/dpo-cuda-1p5b
+    device: cuda
+    load_in_4bit: false

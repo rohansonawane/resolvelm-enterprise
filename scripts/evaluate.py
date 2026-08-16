@@ -35,6 +35,7 @@ def main() -> None:
     root = project_root()
     cfg = load_yaml(root / args.config)
     artifacts = root / cfg.get("artifacts_dir", "artifacts")
+    artifacts.mkdir(parents=True, exist_ok=True)
     docs = root / cfg.get("docs_dir", "docs")
     docs.mkdir(parents=True, exist_ok=True)
     pred_dir = root / cfg.get("predictions_dir", "artifacts/predictions")
@@ -74,14 +75,24 @@ def main() -> None:
     failures = collect_failures(suite.get("base", {}).get("predictions") or [])
     write_json(artifacts / "error_examples.json", failures)
 
-    (docs / "MODEL_COMPARISON.md").write_text(
-        "# Model comparison\n\n"
-        "Locked test split. No hyperparameter tuning on test. "
-        "Values copied from `artifacts/model_comparison.csv`.\n\n"
-        + _md_table(cmp_rows)
-        + "\nProduction CUDA Qwen3-4B numbers: **Not benchmarked on this hardware.**\n",
-        encoding="utf-8",
-    )
+    gpu_run = str(cfg.get("profile", "")).startswith("cuda") or artifacts.name == "gpu"
+    comparison_doc = docs / ("GPU_MODEL_COMPARISON.md" if gpu_run else "MODEL_COMPARISON.md")
+    if gpu_run:
+        header = (
+            "# GPU model comparison\n\n"
+            "Locked test split. No hyperparameter tuning on test. "
+            "Values copied from `artifacts/gpu/model_comparison.csv`. "
+            "Do not paste these into the Mac table in README.md.\n\n"
+        )
+        footer = "\n"
+    else:
+        header = (
+            "# Model comparison\n\n"
+            "Locked test split. No hyperparameter tuning on test. "
+            "Values copied from `artifacts/model_comparison.csv`.\n\n"
+        )
+        footer = "\nProduction CUDA Qwen3-4B numbers: **Not benchmarked on this hardware.**\n"
+    comparison_doc.write_text(header + _md_table(cmp_rows) + footer, encoding="utf-8")
     fail_lines = ["# Error analysis\n", "Examples from the evaluated run (base backend).\n"]
     for item in failures:
         fail_lines.append(
@@ -89,7 +100,8 @@ def main() -> None:
         )
     if not failures:
         fail_lines.append("- No root-cause mismatches in the evaluated sample.")
-    (docs / "ERROR_ANALYSIS.md").write_text("\n".join(fail_lines) + "\n", encoding="utf-8")
+    error_doc = docs / ("GPU_ERROR_ANALYSIS.md" if gpu_run else "ERROR_ANALYSIS.md")
+    error_doc.write_text("\n".join(fail_lines) + "\n", encoding="utf-8")
     print(json.dumps(cmp_rows, indent=2, default=str))
 
 

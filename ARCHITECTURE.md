@@ -43,7 +43,7 @@ The operator-facing schema is `IncidentAnalysis` (`src/resolvelm/schemas/analysi
 
 ## Backends
 
-`ModelBackend` is a Protocol with `async generate` and `generate_sync`. Production CUDA serving is intended to be vLLM in front of a Qwen3-4B-Instruct adapter. This Apple Silicon host uses rule/classifier and, when RAM allows, Transformers + LoRA.
+`ModelBackend` is a Protocol with `async generate` and `generate_sync`. Production CUDA serving is intended to be vLLM in front of a Qwen3-4B-Instruct-2507 adapter. This Apple Silicon host uses rule/classifier and, when RAM allows, Transformers + LoRA.
 
 ## Leakage control
 

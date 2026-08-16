@@ -9,7 +9,7 @@ register_alias: candidate
 
 model:
   id: Qwen/Qwen2.5-0.5B-Instruct
-  production_id: Qwen/Qwen3-4B-Instruct
+  production_id: Qwen/Qwen3-4B-Instruct-2507
   trust_remote_code: false
 
 lora:

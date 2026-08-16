@@ -21,7 +21,8 @@ class Settings(BaseSettings):
     classifier_path: str = ""
     model_version: str = "rule-baseline-v1"
     device: str = "auto"
-    production_model_id: str = "Qwen/Qwen3-4B-Instruct"
+    production_model_id: str = "Qwen/Qwen3-4B-Instruct-2507"
+    load_in_4bit: bool = False
 
 
 @lru_cache
@@ -38,5 +39,6 @@ def backend_spec_from_env() -> dict:
         "adapter_path": settings.adapter_path or None,
         "classifier_path": settings.classifier_path or os.environ.get("RESOLVELM_CLASSIFIER_PATH"),
         "device": settings.device,
+        "load_in_4bit": settings.load_in_4bit,
     }
     return spec

@@ -11,7 +11,7 @@ export default function ArchitecturePage() {
       </div>
       <p className="muted">
         Local default is the rule/classifier path on Apple Silicon. Production target is
-        Qwen3-4B-Instruct with QLoRA + vLLM on CUDA — not executed on this laptop.
+        Qwen3-4B-Instruct-2507 with QLoRA + vLLM on CUDA — not executed on this laptop.
       </p>
     </section>
   );

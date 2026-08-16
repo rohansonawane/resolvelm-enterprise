@@ -9,11 +9,11 @@
 - Instruction-tuned, so the chat template exists (we do not invent special tokens).
 - If download or MPS RAM fails, smoke still trains the TF-IDF/SGD fallback and serves `RuleBasedBackend`. That outcome is recorded in `artifacts/sft_train_metrics.json`, not hidden.
 
-**Not selected locally:** `Qwen/Qwen3-4B-Instruct` — production class, QLoRA 4-bit, needs CUDA VRAM this machine does not have. Downloading it would also be an unnecessary multi-GB hit.
+**Not selected locally:** `Qwen/Qwen3-4B-Instruct-2507` — production class, QLoRA 4-bit, needs CUDA VRAM this machine does not have. Downloading it would also be an unnecessary multi-GB hit. There is no Hub repo named `Qwen/Qwen3-4B-Instruct`.
 
 ## Production (documented, not executed)
 
-`configs/cuda/` and `cloud/` target **Qwen3-4B-Instruct + QLoRA + vLLM**. Reasons:
+`configs/cuda/` and `cloud/` target **Qwen3-4B-Instruct-2507 + QLoRA + vLLM**. Reasons:
 
 - Fits a single modern GPU with 4-bit adapters better than 7B/14B for an internal tool.
 - Instruct checkpoint matches the JSON-in/JSON-out job.

@@ -5,14 +5,16 @@ data:
   train_path: data/processed/sft_train.jsonl
   val_path: data/processed/sft_val.jsonl
 output_dir: outputs/sft-cuda
-artifacts_dir: artifacts
+artifacts_dir: artifacts/gpu
 mlflow_experiment: resolvelm-cuda
 register_alias: candidate
 
 model:
-  id: Qwen/Qwen3-4B-Instruct
-  production_id: Qwen/Qwen3-4B-Instruct
+  id: Qwen/Qwen3-4B-Instruct-2507
+  production_id: Qwen/Qwen3-4B-Instruct-2507
   trust_remote_code: false
+  allow_download: true
+  min_free_disk_gb: 12.0
 
 lora:
   r: 16
@@ -40,11 +42,11 @@ train:
   eval_steps: 50
   save_total_limit: 3
   nan_abort: true
-  resume: true
+  resume: false
   oom_shrink: true
   gradient_checkpointing: true
 
 optuna:
-  enabled: true
+  enabled: false
   n_trials: 8
   subset_size: 256

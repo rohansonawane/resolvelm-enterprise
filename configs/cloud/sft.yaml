@@ -8,7 +8,7 @@ output_dir: /workspace/outputs/sft
 mlflow_experiment: resolvelm-cloud
 register_alias: candidate
 model:
-  id: Qwen/Qwen3-4B-Instruct
+  id: Qwen/Qwen3-4B-Instruct-2507
 lora:
   r: 16
   alpha: 32

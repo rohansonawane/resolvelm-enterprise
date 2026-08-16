@@ -28,6 +28,7 @@ checkpoints/
 outputs/
 data/raw/
 data/processed/
+artifacts/gpu/
 *.safetensors
 *.bin
 *.pt

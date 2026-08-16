@@ -57,33 +57,17 @@ def _run_trl_sft(
 ) -> dict[str, Any]:
     import torch
     from datasets import load_dataset
-    from peft import LoraConfig, TaskType, get_peft_model
-    from transformers import AutoModelForCausalLM, AutoTokenizer, TrainerCallback
+    from transformers import TrainerCallback
     from trl import SFTConfig, SFTTrainer
 
-    model_id = config["model"]["id"]
+    from resolvelm.training.hf_load import load_causal_lm, trainer_precision_flags
+
     train_cfg = config["train"]
-    lora_cfg = config["lora"]
     smoke = config.get("smoke") or {}
     max_steps = int(smoke.get("max_steps", 0) or 0)
-    device_info = detect_device(train_cfg.get("device", "auto"))
+    tokenizer, model, device_info, _peft = load_causal_lm(config)
     device = device_info["device"]
-
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.eos_token
-    model = AutoModelForCausalLM.from_pretrained(model_id)
-    peft_config = LoraConfig(
-        r=int(lora_cfg.get("r", 8)),
-        lora_alpha=int(lora_cfg.get("alpha", 16)),
-        lora_dropout=float(lora_cfg.get("dropout", 0.05)),
-        target_modules=list(lora_cfg.get("target_modules", ["q_proj", "v_proj"])),
-        task_type=TaskType.CAUSAL_LM,
-        bias="none",
-    )
-    model = get_peft_model(model, peft_config)
-    if device == "mps":
-        model.to(torch.device("mps"))
+    model_id = config["model"]["id"]
 
     data_files = {"train": str(train_path)}
     if val_path.exists():
@@ -121,8 +105,7 @@ def _run_trl_sft(
         warmup_ratio=float(train_cfg.get("warmup_ratio", 0.0)),
         dataset_text_field="text",
         gradient_checkpointing=bool(train_cfg.get("gradient_checkpointing", False)),
-        fp16=False,
-        bf16=False,
+        **trainer_precision_flags(config),
     )
     trainer = SFTTrainer(
         model=model,
@@ -152,6 +135,7 @@ def _run_trl_sft(
         "executed": True,
         "transformers_used": True,
         "device": device,
+        "qlora": bool((config.get("lora") or {}).get("qlora")),
         "model_id": model_id,
         "metrics": {k: float(v) if isinstance(v, (int, float)) else v for k, v in history.items()},
         "train_loss": history.get("train_loss"),
@@ -180,6 +164,9 @@ def run_sft(config: dict[str, Any], root: Path | None = None) -> dict[str, Any]:
     allow_hf = bool((config.get("model") or {}).get("allow_download", True))
     min_disk = float((config.get("model") or {}).get("min_free_disk_gb", 6.0))
     use_hf = allow_hf and disk >= min_disk
+    strict_cuda = str((config.get("train") or {}).get("device", "")).lower() == "cuda" or str(
+        config.get("profile", "")
+    ).startswith("cuda")
 
     summary: dict[str, Any]
     try:
@@ -187,6 +174,8 @@ def run_sft(config: dict[str, Any], root: Path | None = None) -> dict[str, Any]:
             raise RuntimeError(f"skip HF: disk={disk:.2f}GiB < {min_disk} or download disabled")
         summary = _run_trl_sft(config, train_path, val_path, output_dir)
     except Exception as exc:  # noqa: BLE001
+        if strict_cuda:
+            raise
         fallback = train_classifier_sft(
             train_path,
             output_dir,

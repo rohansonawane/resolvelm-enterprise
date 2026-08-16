@@ -5,7 +5,7 @@ description = "Enterprise LLM post-training, alignment, evaluation, and serving 
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.11,<3.12"
-authors = [{ name = "Rohan" }]
+authors = [{ name = "Rohan Sonawane" }]
 keywords = ["llm", "sft", "dpo", "incident-response", "mlops"]
 dependencies = [
   "pydantic>=2.9,<3",
@@ -43,6 +43,9 @@ dev = [
   "pytest-asyncio>=0.24,<1",
   "ruff>=0.8,<1",
   "mypy>=1.13,<2",
+]
+gpu = [
+  "bitsandbytes>=0.43,<0.48",
 ]
 
 [project.scripts]

@@ -108,6 +108,7 @@ def main() -> None:
     write_jsonl(processed / "dpo_val.jsonl", dpo_val)
 
     artifacts = root / cfg.get("artifacts_dir", "artifacts")
+    artifacts.mkdir(parents=True, exist_ok=True)
     write_json(artifacts / "data_quality_report.json", report)
     write_json(
         artifacts / "dataset_manifest.json",

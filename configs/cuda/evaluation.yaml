@@ -2,23 +2,29 @@
 seed: 42
 profile: cuda
 test_path: data/processed/incidents_test.jsonl
-artifacts_dir: artifacts
+artifacts_dir: artifacts/gpu
 docs_dir: docs
-predictions_dir: artifacts/predictions
+predictions_dir: artifacts/gpu/predictions
 max_samples: null
-timeout_s: 60
+timeout_s: 120
 backends:
   base:
     kind: transformers
     name: qwen3-4b-base
-    model_id: Qwen/Qwen3-4B-Instruct
+    model_id: Qwen/Qwen3-4B-Instruct-2507
+    device: cuda
+    load_in_4bit: true
   sft:
     kind: transformers
     name: qwen3-4b-sft
-    model_id: Qwen/Qwen3-4B-Instruct
+    model_id: Qwen/Qwen3-4B-Instruct-2507
     adapter_path: outputs/sft-cuda
+    device: cuda
+    load_in_4bit: true
   dpo:
     kind: transformers
     name: qwen3-4b-dpo
-    model_id: Qwen/Qwen3-4B-Instruct
+    model_id: Qwen/Qwen3-4B-Instruct-2507
     adapter_path: outputs/dpo-cuda
+    device: cuda
+    load_in_4bit: true

@@ -5,14 +5,17 @@ data:
   train_path: data/processed/dpo_train.jsonl
   val_path: data/processed/dpo_val.jsonl
 output_dir: outputs/dpo-cuda
-artifacts_dir: artifacts
+artifacts_dir: artifacts/gpu
 mlflow_experiment: resolvelm-cuda
 register_alias: champion
 sft_adapter: outputs/sft-cuda
 
 model:
-  id: Qwen/Qwen3-4B-Instruct
-  production_id: Qwen/Qwen3-4B-Instruct
+  id: Qwen/Qwen3-4B-Instruct-2507
+  production_id: Qwen/Qwen3-4B-Instruct-2507
+  trust_remote_code: false
+  allow_download: true
+  min_free_disk_gb: 12.0
 
 lora:
   r: 16
@@ -38,5 +41,5 @@ train:
   device: cuda
   logging_steps: 10
   nan_abort: true
-  resume: true
+  resume: false
   gradient_checkpointing: true

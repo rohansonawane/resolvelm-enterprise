@@ -27,6 +27,7 @@ def load_backend(spec: dict[str, Any]) -> ModelBackend:
             model_id=spec["model_id"],
             adapter_path=spec.get("adapter_path"),
             device=spec.get("device", "auto"),
+            load_in_4bit=bool(spec.get("load_in_4bit", False)),
         )
     if kind == "auto":
         adapter = spec.get("adapter_path")
@@ -39,6 +40,8 @@ def load_backend(spec: dict[str, Any]) -> ModelBackend:
             return TransformersBackend(
                 model_id=spec.get("model_id", "Qwen/Qwen2.5-0.5B-Instruct"),
                 adapter_path=adapter,
+                device=spec.get("device", "auto"),
+                load_in_4bit=bool(spec.get("load_in_4bit", False)),
             )
         return RuleBasedBackend()
     raise ValueError(f"unknown backend kind: {kind}")

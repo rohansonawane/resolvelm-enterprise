@@ -9,7 +9,7 @@ if ! command -v nvidia-smi >/dev/null; then
   echo "nvidia-smi not found. Aborting."
   exit 2
 fi
-python scripts/prepare_dataset.py --config configs/data.yaml
-python scripts/train_sft.py --config configs/cloud/sft.yaml
-python scripts/train_dpo.py --config configs/cloud/dpo.yaml
+python scripts/prepare_dataset.py --config configs/cuda/data.yaml
+python scripts/train_sft.py --config configs/cuda/sft.yaml
+python scripts/train_dpo.py --config configs/cuda/dpo.yaml
 python scripts/evaluate.py --config configs/cuda/evaluation.yaml
