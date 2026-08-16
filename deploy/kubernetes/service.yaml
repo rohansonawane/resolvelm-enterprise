@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: resolvelm-api
+  namespace: resolvelm
+spec:
+  selector:
+    app: resolvelm-api
+  ports:
+    - name: http
+      port: 8101
+      targetPort: 8101

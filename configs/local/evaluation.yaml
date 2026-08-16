@@ -1,0 +1,24 @@
+seed: 42
+profile: apple_silicon_mps
+test_path: data/processed/incidents_test.jsonl
+artifacts_dir: artifacts
+docs_dir: docs
+predictions_dir: artifacts/predictions
+max_samples: 24
+timeout_s: 20
+smoke: true
+
+backends:
+  base:
+    kind: rule
+    name: rule_baseline
+  sft:
+    kind: auto
+    name: sft
+    adapter_path: outputs/sft
+    classifier_path: outputs/sft/classifier.joblib
+  dpo:
+    kind: auto
+    name: dpo
+    adapter_path: outputs/dpo
+    classifier_path: outputs/dpo/classifier.joblib

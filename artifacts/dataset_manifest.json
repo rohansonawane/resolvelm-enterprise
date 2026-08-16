@@ -1,0 +1,9 @@
+{
+  "n_train": 32,
+  "n_val": 6,
+  "n_test": 10,
+  "n_sft_train": 32,
+  "n_dpo_train": 64,
+  "seed": 42,
+  "config": "/Users/rohan/Desktop/Project/AIandML/enterprise-ai-portfolio/resolve-lm/configs/local/data.yaml"
+}

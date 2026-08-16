@@ -1,0 +1,25 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: resolvelm-qwen3
+  namespace: resolvelm
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: huggingface
+      storageUri: pvc://resolvelm-models/qwen3-4b-dpo
+      resources:
+        requests:
+          cpu: "4"
+          memory: "16Gi"
+          nvidia.com/gpu: "1"
+        limits:
+          cpu: "8"
+          memory: "24Gi"
+          nvidia.com/gpu: "1"
+      env:
+        - name: BACKEND
+          value: vllm
+        - name: MODEL_ID
+          value: Qwen/Qwen3-4B-Instruct

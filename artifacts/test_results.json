@@ -1,0 +1,8 @@
+{
+  "command": "uv run pytest tests -q --tb=line",
+  "passed": 29,
+  "failed": 0,
+  "errors": 0,
+  "seconds": 4.89,
+  "note": "Measured after host Python crash recovery. No Hugging Face generate() in this pytest run."
+}

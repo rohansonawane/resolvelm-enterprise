@@ -1,0 +1,31 @@
+seed: 42
+test_path: data/processed/incidents_test.jsonl
+artifacts_dir: artifacts
+docs_dir: docs
+predictions_dir: artifacts/predictions
+max_samples: null
+timeout_s: 30
+
+backends:
+  base:
+    kind: rule
+    name: rule_baseline
+  sft:
+    kind: auto
+    name: sft
+    adapter_path: outputs/sft
+    classifier_path: outputs/sft/classifier.joblib
+  dpo:
+    kind: auto
+    name: dpo
+    adapter_path: outputs/dpo
+    classifier_path: outputs/dpo/classifier.joblib
+
+metrics:
+  - root_cause_accuracy
+  - root_cause_macro_f1
+  - severity_accuracy
+  - json_parse_success
+  - pydantic_schema_success
+  - supported_evidence_rate
+  - action_f1

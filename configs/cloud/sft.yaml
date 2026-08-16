@@ -1,0 +1,28 @@
+# Cloud GPU training (A10/A100). Do not run from this laptop. See cloud/README.md.
+seed: 42
+profile: cloud_cuda
+data:
+  train_path: data/processed/sft_train.jsonl
+  val_path: data/processed/sft_val.jsonl
+output_dir: /workspace/outputs/sft
+mlflow_experiment: resolvelm-cloud
+register_alias: candidate
+model:
+  id: Qwen/Qwen3-4B-Instruct
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  qlora: true
+  bits: 4
+train:
+  epochs: 3
+  learning_rate: 1.0e-4
+  batch_size: 4
+  grad_accum: 4
+  max_seq_len: 2048
+  precision: bf16
+  device: cuda
+  gradient_checkpointing: true
+  deepspeed: false

@@ -1,0 +1,4 @@
+model,backend,n,root_cause_accuracy,root_cause_macro_f1,severity_accuracy,severity_macro_f1,json_parse_success,pydantic_schema_success,supported_evidence_rate,unsupported_evidence_rate,action_f1,latency_p50_ms,latency_p95_ms
+base,rule,10,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,0.025458502932451665,0.08035230857785781
+sft,transformers,10,0.0,0.0,0.0,0.0,0.9,0.0,0.0,0.0,0.0,15944.310791499447,32194.21556701125
+dpo,trl_dpo_train_only,Not benchmarked on this hardware.,Not benchmarked on this hardware.,Not benchmarked on this hardware.,Not benchmarked on this hardware.,Not benchmarked on this hardware.,Not benchmarked on this hardware.,Not benchmarked on this hardware.,Not benchmarked on this hardware.,Not benchmarked on this hardware.,Not benchmarked on this hardware.,Not benchmarked on this hardware.,Not benchmarked on this hardware.

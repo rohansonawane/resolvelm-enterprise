@@ -1,0 +1,17 @@
+{
+  "backend": "trl_dpo",
+  "executed": true,
+  "transformers_used": true,
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "device": "mps",
+  "metrics": {
+    "train_runtime": 10.9646,
+    "train_samples_per_second": 0.182,
+    "train_steps_per_second": 0.182,
+    "total_flos": 0.0,
+    "train_loss": 0.691156804561615,
+    "epoch": 0.25
+  },
+  "train_loss": 0.691156804561615,
+  "torch": "2.7.1"
+}

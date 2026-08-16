@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: resolvelm-config
+  namespace: resolvelm
+data:
+  RESOLVELM_ENV: "prod"
+  RESOLVELM_BACKEND: "transformers"
+  RESOLVELM_MODEL_ID: "Qwen/Qwen3-4B-Instruct"
+  RESOLVELM_API_PORT: "8101"
+  RESOLVELM_MAX_PAYLOAD_BYTES: "262144"

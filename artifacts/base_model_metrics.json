@@ -1,0 +1,228 @@
+{
+  "backend": "rule",
+  "model_version": "rule-baseline-v1",
+  "n": 10,
+  "root_cause": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "per_class": {
+      "AUTH_TOKEN_EXPIRED": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 2
+      },
+      "CONFIG_MISMATCH": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 2
+      },
+      "MEMORY_PRESSURE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 2
+      },
+      "OPENSTACK_NOVA_SCHEDULER_FAILURE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 2
+      },
+      "PERMISSION_DENIED": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 2
+      }
+    },
+    "confusion_matrix": [
+      [
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2
+      ]
+    ],
+    "labels": [
+      "AUTH_TOKEN_EXPIRED",
+      "CONFIG_MISMATCH",
+      "MEMORY_PRESSURE",
+      "OPENSTACK_NOVA_SCHEDULER_FAILURE",
+      "PERMISSION_DENIED"
+    ],
+    "sklearn_report": {
+      "AUTH_TOKEN_EXPIRED": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 2.0
+      },
+      "CONFIG_MISMATCH": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 2.0
+      },
+      "MEMORY_PRESSURE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 2.0
+      },
+      "OPENSTACK_NOVA_SCHEDULER_FAILURE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 2.0
+      },
+      "PERMISSION_DENIED": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 2.0
+      },
+      "accuracy": 1.0,
+      "macro avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 10.0
+      },
+      "weighted avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 10.0
+      }
+    },
+    "pred_counts": {
+      "OPENSTACK_NOVA_SCHEDULER_FAILURE": 2,
+      "MEMORY_PRESSURE": 2,
+      "PERMISSION_DENIED": 2,
+      "CONFIG_MISMATCH": 2,
+      "AUTH_TOKEN_EXPIRED": 2
+    },
+    "true_counts": {
+      "OPENSTACK_NOVA_SCHEDULER_FAILURE": 2,
+      "MEMORY_PRESSURE": 2,
+      "PERMISSION_DENIED": 2,
+      "CONFIG_MISMATCH": 2,
+      "AUTH_TOKEN_EXPIRED": 2
+    }
+  },
+  "severity": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "per_class": {
+      "SEV-2": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 4
+      },
+      "SEV-3": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 6
+      }
+    },
+    "confusion_matrix": [
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        6
+      ]
+    ],
+    "labels": [
+      "SEV-2",
+      "SEV-3"
+    ],
+    "sklearn_report": {
+      "SEV-2": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 4.0
+      },
+      "SEV-3": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "accuracy": 1.0,
+      "macro avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 10.0
+      },
+      "weighted avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 10.0
+      }
+    },
+    "pred_counts": {
+      "SEV-2": 4,
+      "SEV-3": 6
+    },
+    "true_counts": {
+      "SEV-2": 4,
+      "SEV-3": 6
+    }
+  },
+  "json_parse_success": 1.0,
+  "pydantic_schema_success": 1.0,
+  "supported_evidence_rate": 1.0,
+  "unsupported_evidence_rate": 0.0,
+  "action_precision": 1.0,
+  "action_recall": 1.0,
+  "action_f1": 1.0,
+  "latency": {
+    "p50_ms": 0.025458502932451665,
+    "p95_ms": 0.08035230857785781,
+    "mean_ms": 0.03498340374790132,
+    "n": 10
+  },
+  "tokens_per_sec": null,
+  "peak_memory_mb": null,
+  "tokens_per_sec_note": "Not benchmarked on this hardware.",
+  "peak_memory_note": "Not benchmarked on this hardware."
+}

@@ -1,0 +1,51 @@
+seed: 42
+profile: apple_silicon_mps
+data:
+  train_path: data/processed/sft_train.jsonl
+  val_path: data/processed/sft_val.jsonl
+output_dir: outputs/sft
+artifacts_dir: artifacts
+mlflow_experiment: resolvelm
+register_alias: candidate
+smoke:
+  max_train_samples: 16
+  max_val_samples: 4
+  max_steps: 3
+
+model:
+  id: Qwen/Qwen2.5-0.5B-Instruct
+  production_id: Qwen/Qwen3-4B-Instruct
+  allow_download: true
+  min_free_disk_gb: 6.0
+
+lora:
+  r: 4
+  alpha: 8
+  dropout: 0.05
+  target_modules: [q_proj, v_proj]
+  qlora: false
+
+train:
+  epochs: 1
+  learning_rate: 2.0e-4
+  batch_size: 1
+  grad_accum: 1
+  max_seq_len: 384
+  warmup_ratio: 0.0
+  weight_decay: 0.0
+  max_grad_norm: 1.0
+  optimizer: adamw_torch
+  precision: fp32
+  device: mps
+  logging_steps: 1
+  eval_steps: 10
+  save_total_limit: 1
+  nan_abort: true
+  resume: false
+  oom_shrink: true
+
+optuna:
+  enabled: true
+  n_trials: 2
+  subset_size: 8
+  timeout_s: 120

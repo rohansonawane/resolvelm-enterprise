@@ -1,0 +1,35 @@
+{
+  "backend": "trl_sft",
+  "executed": true,
+  "transformers_used": true,
+  "device": "mps",
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "metrics": {
+    "train_runtime": 11.1124,
+    "train_samples_per_second": 0.27,
+    "train_steps_per_second": 0.27,
+    "total_flos": 2204884965888.0,
+    "train_loss": 3.4154900709788003
+  },
+  "train_loss": 3.4154900709788003,
+  "optuna": {
+    "skipped": false,
+    "best_value": 1.0,
+    "best_params": {
+      "C": 0.10119594527343732,
+      "max_features": 1990
+    },
+    "n_trials": 2
+  },
+  "lora": {
+    "r": 4,
+    "alpha": 8,
+    "dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "qlora": false
+  },
+  "seed": 42
+}

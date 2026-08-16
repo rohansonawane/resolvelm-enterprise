@@ -1,0 +1,33 @@
+name: resolvelm-ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.11"
+      - name: Install (no CUDA torch extra if disk/time tight)
+        run: uv sync --extra dev
+      - name: Lint
+        run: uv run ruff check src scripts tests
+      - name: Unit tests
+        run: uv run pytest tests/unit tests/data tests/model tests/integration tests/e2e -q
+        env:
+          HF_HUB_OFFLINE: "1"
+      - name: Validate Kubernetes YAML
+        run: python - <<'PY'
+        import pathlib, sys
+        try:
+            import yaml
+        except ImportError:
+            print("PyYAML missing"); sys.exit(0)
+        root = pathlib.Path("deploy")
+        for path in root.rglob("*.yaml"):
+            list(yaml.safe_load_all(path.read_text()))
+            print("ok", path)
+        PY

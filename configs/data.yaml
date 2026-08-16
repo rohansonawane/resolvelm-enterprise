@@ -1,0 +1,39 @@
+seed: 42
+raw_dir: data/raw
+processed_dir: data/processed
+artifacts_dir: artifacts
+docs_dir: docs
+
+# Local fixture size. Production CUDA/cloud configs may raise this.
+n_families: 48
+n_variants_per_family: 3
+preference_pairs_per_train: 2
+
+split:
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  strategy: grouped_temporal
+  group_key: family_id
+  time_key: timestamp
+
+leakage:
+  exact_dedup: true
+  near_dup_ngram: 8
+  near_dup_jaccard: 0.92
+  drop_train_test_overlap: true
+
+max_log_events: 40
+max_symptom_chars: 400
+max_log_chars: 500
+
+sources:
+  - hadoop
+  - hdfs
+  - openstack
+
+label_origins:
+  original: false
+  derived: true
+  deterministic_template: true
+  synthetic_preference: true

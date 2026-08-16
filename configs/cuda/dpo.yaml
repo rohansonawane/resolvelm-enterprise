@@ -1,0 +1,42 @@
+# Production-class DPO on a CUDA GPU machine. NOT executed on the Apple Silicon laptop.
+seed: 42
+profile: cuda_qlora
+data:
+  train_path: data/processed/dpo_train.jsonl
+  val_path: data/processed/dpo_val.jsonl
+output_dir: outputs/dpo-cuda
+artifacts_dir: artifacts
+mlflow_experiment: resolvelm-cuda
+register_alias: champion
+sft_adapter: outputs/sft-cuda
+
+model:
+  id: Qwen/Qwen3-4B-Instruct
+  production_id: Qwen/Qwen3-4B-Instruct
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  qlora: true
+  bits: 4
+  quant_type: nf4
+  double_quant: true
+
+train:
+  epochs: 1
+  learning_rate: 5.0e-6
+  batch_size: 1
+  grad_accum: 8
+  max_seq_len: 2048
+  beta: 0.1
+  warmup_ratio: 0.03
+  max_grad_norm: 1.0
+  optimizer: adamw_torch
+  precision: bf16
+  device: cuda
+  logging_steps: 10
+  nan_abort: true
+  resume: true
+  gradient_checkpointing: true

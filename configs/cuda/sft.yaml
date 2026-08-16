@@ -1,0 +1,50 @@
+# Production-class SFT on a CUDA GPU machine. NOT executed on the Apple Silicon laptop.
+seed: 42
+profile: cuda_qlora
+data:
+  train_path: data/processed/sft_train.jsonl
+  val_path: data/processed/sft_val.jsonl
+output_dir: outputs/sft-cuda
+artifacts_dir: artifacts
+mlflow_experiment: resolvelm-cuda
+register_alias: candidate
+
+model:
+  id: Qwen/Qwen3-4B-Instruct
+  production_id: Qwen/Qwen3-4B-Instruct
+  trust_remote_code: false
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  qlora: true
+  bits: 4
+  quant_type: nf4
+  double_quant: true
+
+train:
+  epochs: 2
+  learning_rate: 1.0e-4
+  batch_size: 2
+  grad_accum: 8
+  max_seq_len: 2048
+  warmup_ratio: 0.03
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  optimizer: adamw_torch
+  precision: bf16
+  device: cuda
+  logging_steps: 10
+  eval_steps: 50
+  save_total_limit: 3
+  nan_abort: true
+  resume: true
+  oom_shrink: true
+  gradient_checkpointing: true
+
+optuna:
+  enabled: true
+  n_trials: 8
+  subset_size: 256

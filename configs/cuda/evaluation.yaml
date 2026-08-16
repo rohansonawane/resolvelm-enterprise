@@ -1,0 +1,24 @@
+# CUDA evaluation config. NOT executed on the Apple Silicon laptop.
+seed: 42
+profile: cuda
+test_path: data/processed/incidents_test.jsonl
+artifacts_dir: artifacts
+docs_dir: docs
+predictions_dir: artifacts/predictions
+max_samples: null
+timeout_s: 60
+backends:
+  base:
+    kind: transformers
+    name: qwen3-4b-base
+    model_id: Qwen/Qwen3-4B-Instruct
+  sft:
+    kind: transformers
+    name: qwen3-4b-sft
+    model_id: Qwen/Qwen3-4B-Instruct
+    adapter_path: outputs/sft-cuda
+  dpo:
+    kind: transformers
+    name: qwen3-4b-dpo
+    model_id: Qwen/Qwen3-4B-Instruct
+    adapter_path: outputs/dpo-cuda

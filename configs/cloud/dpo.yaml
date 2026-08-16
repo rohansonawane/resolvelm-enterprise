@@ -1,0 +1,24 @@
+# Cloud GPU DPO. Do not run from this laptop.
+seed: 42
+profile: cloud_cuda
+data:
+  train_path: data/processed/dpo_train.jsonl
+  val_path: data/processed/dpo_val.jsonl
+output_dir: /workspace/outputs/dpo
+sft_adapter: /workspace/outputs/sft
+model:
+  id: Qwen/Qwen3-4B-Instruct
+lora:
+  r: 16
+  alpha: 32
+  qlora: true
+  bits: 4
+train:
+  epochs: 1
+  learning_rate: 5.0e-6
+  batch_size: 2
+  grad_accum: 8
+  max_seq_len: 2048
+  beta: 0.1
+  precision: bf16
+  device: cuda

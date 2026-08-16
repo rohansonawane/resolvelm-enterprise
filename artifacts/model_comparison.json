@@ -1,0 +1,50 @@
+[
+  {
+    "model": "base",
+    "backend": "rule",
+    "n": 10,
+    "root_cause_accuracy": 1.0,
+    "root_cause_macro_f1": 1.0,
+    "severity_accuracy": 1.0,
+    "severity_macro_f1": 1.0,
+    "json_parse_success": 1.0,
+    "pydantic_schema_success": 1.0,
+    "supported_evidence_rate": 1.0,
+    "unsupported_evidence_rate": 0.0,
+    "action_f1": 1.0,
+    "latency_p50_ms": 0.025458502932451665,
+    "latency_p95_ms": 0.08035230857785781
+  },
+  {
+    "model": "sft",
+    "backend": "transformers",
+    "n": 10,
+    "root_cause_accuracy": 0.0,
+    "root_cause_macro_f1": 0.0,
+    "severity_accuracy": 0.0,
+    "severity_macro_f1": 0.0,
+    "json_parse_success": 0.9,
+    "pydantic_schema_success": 0.0,
+    "supported_evidence_rate": 0.0,
+    "unsupported_evidence_rate": 0.0,
+    "action_f1": 0.0,
+    "latency_p50_ms": 15944.310791499447,
+    "latency_p95_ms": 32194.21556701125
+  },
+  {
+    "model": "dpo",
+    "backend": "trl_dpo_train_only",
+    "n": "Not benchmarked on this hardware.",
+    "root_cause_accuracy": "Not benchmarked on this hardware.",
+    "root_cause_macro_f1": "Not benchmarked on this hardware.",
+    "severity_accuracy": "Not benchmarked on this hardware.",
+    "severity_macro_f1": "Not benchmarked on this hardware.",
+    "json_parse_success": "Not benchmarked on this hardware.",
+    "pydantic_schema_success": "Not benchmarked on this hardware.",
+    "supported_evidence_rate": "Not benchmarked on this hardware.",
+    "unsupported_evidence_rate": "Not benchmarked on this hardware.",
+    "action_f1": "Not benchmarked on this hardware.",
+    "latency_p50_ms": "Not benchmarked on this hardware.",
+    "latency_p95_ms": "Not benchmarked on this hardware."
+  }
+]

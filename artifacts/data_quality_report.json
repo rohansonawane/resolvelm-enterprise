@@ -1,0 +1,35 @@
+{
+  "n_records": 48,
+  "n_issues": 0,
+  "issue_types": {},
+  "issues_preview": [],
+  "split_counts": {
+    "train": 32,
+    "val": 6,
+    "test": 10
+  },
+  "label_origin_counts": {
+    "deterministic_template": 24,
+    "derived": 24
+  },
+  "root_cause_counts": {
+    "DISK_FULL": 4,
+    "HDFS_BLOCK_MISSING": 4,
+    "NETWORK_PARTITION": 4,
+    "NODE_FAILURE": 4,
+    "YARN_CONTAINER_OOM": 4,
+    "DB_CONNECTION_POOL_EXHAUSTION": 4,
+    "SERVICE_TIMEOUT": 4,
+    "OPENSTACK_NOVA_SCHEDULER_FAILURE": 4,
+    "MEMORY_PRESSURE": 4,
+    "PERMISSION_DENIED": 4,
+    "CONFIG_MISMATCH": 4,
+    "AUTH_TOKEN_EXPIRED": 4
+  },
+  "encoding_problems": 0,
+  "extreme_length_count": 0,
+  "near_duplicate_across_split": 0,
+  "family_split_leakage": {},
+  "passed": true,
+  "family_leakage_train_test": []
+}

@@ -1,0 +1,43 @@
+seed: 42
+data:
+  train_path: data/processed/sft_train.jsonl
+  val_path: data/processed/sft_val.jsonl
+output_dir: outputs/sft
+artifacts_dir: artifacts
+mlflow_experiment: resolvelm
+register_alias: candidate
+
+model:
+  id: Qwen/Qwen2.5-0.5B-Instruct
+  production_id: Qwen/Qwen3-4B-Instruct
+  trust_remote_code: false
+
+lora:
+  r: 8
+  alpha: 16
+  dropout: 0.05
+  target_modules: [q_proj, v_proj, k_proj, o_proj]
+  qlora: false
+
+train:
+  epochs: 1
+  learning_rate: 2.0e-4
+  batch_size: 1
+  grad_accum: 4
+  max_seq_len: 768
+  warmup_ratio: 0.03
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  optimizer: adamw_torch
+  precision: bf16
+  logging_steps: 1
+  eval_steps: 20
+  save_total_limit: 2
+  nan_abort: true
+  resume: false
+  oom_shrink: true
+
+optuna:
+  enabled: false
+  n_trials: 3
+  subset_size: 32

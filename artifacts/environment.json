@@ -1,0 +1,22 @@
+{
+  "project": "resolvelm",
+  "version": "0.1.0",
+  "python": "3.11.12 (main, Apr  8 2025, 14:15:29) [Clang 17.0.0 (clang-1700.0.13.3)]",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "machine": "arm64",
+  "processor": "arm",
+  "free_disk_gb": 91.81975936889648,
+  "device": {
+    "preferred": "auto",
+    "torch_available": true,
+    "cuda": false,
+    "mps": false,
+    "device": "cpu",
+    "torch_version": "2.7.1"
+  },
+  "cuda_executed": false,
+  "qwen3_4b_executed": false,
+  "torch": "2.7.1",
+  "torch_mps": false,
+  "transformers": "4.57.6"
+}
